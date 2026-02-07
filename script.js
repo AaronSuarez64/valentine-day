@@ -3,70 +3,67 @@ const envelope = document.getElementById("envelope-container");
 const letter = document.getElementById("letter-container");
 const noBtn = document.querySelector(".no-btn");
 const yesBtn = document.querySelector(".btn[alt='Yes']");
+const music = document.getElementById("bg-music");
 
 const title = document.getElementById("letter-title");
 const catImg = document.getElementById("letter-cat");
 const buttons = document.getElementById("letter-buttons");
 const finalText = document.getElementById("final-text");
 
-// Click Envelope
-
+// Open envelope
 envelope.addEventListener("click", () => {
     envelope.style.display = "none";
     letter.style.display = "flex";
 
-    setTimeout( () => {
+    // Play music (user interaction required by browser)
+    music.volume = 0.6;
+    music.play();
+
+    setTimeout(() => {
         document.querySelector(".letter-window").classList.add("open");
-    },50);
+    }, 50);
 });
 
-// Logic to move the NO btn
-
-// noBtn.addEventListener("mouseover", () => {
-//     const min = 200;
-//     const max = 200;
-
-//     const distance = Math.random() * (max - min) + min;
-//     const angle = Math.random() * Math.PI * 2;
-
-//     const moveX = Math.cos(angle) * distance;
-//     const moveY = Math.sin(angle) * distance;
-
-//     noBtn.style.transition = "transform 0.3s ease";
-//     noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
-// });
-
-// Logic to make YES btn to grow
-
+// YES button growing logic
 let yesScale = 1;
-
-yesBtn.style.position = "relative"
+yesBtn.style.position = "relative";
 yesBtn.style.transformOrigin = "center center";
 yesBtn.style.transition = "transform 0.3s ease";
 
 noBtn.addEventListener("click", () => {
-    yesScale += 2;
+    yesScale += 0.5;
 
-    if (yesBtn.style.position !== "fixed") {
-        yesBtn.style.position = "fixed";
-        yesBtn.style.top = "50%";
-        yesBtn.style.left = "50%";
-        yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
-    }else{
-        yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
-    }
+    yesBtn.style.position = "fixed";
+    yesBtn.style.top = "50%";
+    yesBtn.style.left = "50%";
+    yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
 });
 
-// YES is clicked
-
+// YES clicked
 yesBtn.addEventListener("click", () => {
-    title.textContent = "Yippeeee!";
-
+    title.textContent = "YIPPEEEE!!! 💕";
     catImg.src = "cat_dance.gif";
 
     document.querySelector(".letter-window").classList.add("final");
-
     buttons.style.display = "none";
-
     finalText.style.display = "block";
+
+    // Romantic hearts effect
+    spawnHearts();
 });
+
+// Hearts animation
+function spawnHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.innerHTML = "💖";
+        heart.style.position = "fixed";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.bottom = "0px";
+        heart.style.fontSize = Math.random() * 20 + 20 + "px";
+        heart.style.animation = "floatUp 4s linear";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 4000);
+    }, 300);
+}
